@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">taskman</string>
+    <string name="Taskman">Taskman</string>
+    <string name="All">All</string>
+    <string name="Done">Done</string>
+    <string name="Unfin">Unfin</string>
+</resources>
