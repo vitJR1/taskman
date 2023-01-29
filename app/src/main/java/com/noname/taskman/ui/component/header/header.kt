@@ -9,7 +9,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.toFontFamily
 import androidx.compose.ui.unit.dp
 import com.noname.taskman.R
 
@@ -43,14 +46,15 @@ fun Header(){
             }
             Text(
                 text = stringResource(id = R.string.Taskman),
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                //style = MaterialTheme.typography.titleLarge
             )
         }
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.bell_ico),
+                painter = painterResource(id = R.drawable.bell_fill_ico),
                 contentDescription = "",
                 modifier = Modifier.size(25.dp)
             )
