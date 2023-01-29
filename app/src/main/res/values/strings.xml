@@ -4,4 +4,6 @@
     <string name="All">All</string>
     <string name="Done">Done</string>
     <string name="Unfin">Unfin</string>
+    <string name="Search">Search</string>
+    <string name="Tasks_list">Tasks list</string>
 </resources>
