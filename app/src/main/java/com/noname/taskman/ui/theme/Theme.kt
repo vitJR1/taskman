@@ -25,7 +25,8 @@ private val DarkColorScheme = darkColorScheme(
     secondaryContainer = Yellow50,
     background = Black70,
     surface = Black30,
-    surfaceTint = Black30
+    surfaceTint = Black30,
+    tertiaryContainer = Black70
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -34,7 +35,31 @@ private val LightColorScheme = lightColorScheme(
     secondaryContainer = Yellow50,
     background = White60,
     surface = White90,
-    surfaceTint = Black30
+    surfaceTint = Black30,
+    tertiaryContainer = White60,
+    
+//    onPrimary  =  Black30,
+//    onPrimaryContainer  =  Black30,
+//    inversePrimary  =  Black30,
+//    secondary  =  Black30,
+//    onSecondary  =  Black30,
+//    onSecondaryContainer  =  Black30,
+//    tertiary  =  Black30,
+//    onTertiary  =  Black30,
+//    onTertiaryContainer  =  Black30,
+//    onBackground  =  Black30,
+//    onSurface  =  Black30,
+//    surfaceVariant  =  Black30,
+//    onSurfaceVariant  =  Black30,
+//    inverseSurface  =  Black30,
+//    inverseOnSurface  =  Black30,
+//    error  =  Black30,
+//    onError  =  Black30,
+//    errorContainer  =  Black30,
+//    onErrorContainer  =  Black30,
+//    outline  =  Black30,
+//    outlineVariant  =  Black30,
+//    scrim  =  Black30
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -51,7 +76,7 @@ private val LightColorScheme = lightColorScheme(
 fun TaskmanTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -65,7 +90,7 @@ fun TaskmanTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
+            (view.context as Activity).window.statusBarColor = Black70.toArgb()
             ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
         }
     }

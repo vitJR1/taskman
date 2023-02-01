@@ -17,15 +17,14 @@ import androidx.compose.ui.unit.dp
 import com.noname.taskman.R
 import com.noname.taskman.ui.component.header.Header
 import com.noname.taskman.ui.component.upper.BodyUpper
+import com.noname.taskman.ui.overview.home.body.TaskList
 import com.noname.taskman.ui.overview.home.footer.FooterHomeMenu
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(){
 
-    val s = remember {
-        mutableStateOf("")
-    }
+    val s = remember { mutableStateOf("") }
 
     Scaffold(
         topBar = { Header() },
@@ -40,6 +39,7 @@ fun HomeScreen(){
                 .padding(20.dp)
         ) {
             BodyUpper(title = stringResource(id = R.string.Tasks_list), s = s)
+            TaskList()
         }
     }
 }
