@@ -8,33 +8,29 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.noname.taskman.R
 import com.noname.taskman.data_structure.Task
-import com.noname.taskman.data_structure.TaskStateFilter
+import com.noname.taskman.model.HomeScreenModel
 import com.noname.taskman.ui.component.header.Header
 import com.noname.taskman.ui.component.upper.BodyUpper
 import com.noname.taskman.ui.overview.home.body.TaskList
 import com.noname.taskman.ui.overview.home.footer.FooterHomeMenu
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(){
 
-    val s = remember { mutableStateOf("") }
+    val vm by remember { mutableStateOf(HomeScreenModel()) }
 
-
-    val f = remember { MutableStateFlow<TaskStateFilter>(TaskStateFilter.ALL) }
+    val fState = vm.filter.collectAsState()
 
     Scaffold(
         topBar = { Header() },
-        bottomBar = { FooterHomeMenu(f) }
+        bottomBar = { FooterHomeMenu(fState, vm) }
     ) {
         Column(
             modifier = Modifier
@@ -44,7 +40,7 @@ fun HomeScreen(){
                 .fillMaxSize()
                 .padding(20.dp)
         ) {
-            BodyUpper(title = stringResource(id = R.string.Tasks_list), s = s)
+            BodyUpper(title = stringResource(id = R.string.Tasks_list), s = vm.search)
             TaskList(
                 listOf(
                     Task(1, "wake up", "", true),
@@ -58,8 +54,8 @@ fun HomeScreen(){
                     Task(9, "forget that song", "", true),
                     Task(10, "update myself", "", false),
                 ),
-                s.value,
-                TaskStateFilter.ACTIVE
+                vm.search.value,
+                fState.value
             )
         }
     }

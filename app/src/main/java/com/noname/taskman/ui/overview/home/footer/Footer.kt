@@ -9,7 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -18,12 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.noname.taskman.R
 import com.noname.taskman.data_structure.TaskStateFilter
+import com.noname.taskman.model.HomeScreenModel
 import com.noname.taskman.ui.theme.Black90
 import com.noname.taskman.ui.theme.White90
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
-fun FooterHomeMenu(f: MutableStateFlow<TaskStateFilter>) {
+fun FooterHomeMenu(f: State<TaskStateFilter>, vm: HomeScreenModel) {
     val textSize = 16.sp
 
     Row(
@@ -42,13 +42,13 @@ fun FooterHomeMenu(f: MutableStateFlow<TaskStateFilter>) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.clickable {
-                f.value = TaskStateFilter.ALL
+                vm.filter.value = TaskStateFilter.ALL
             }
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.endless_ico),
                 contentDescription = "",
-                tint = if(f.value is TaskStateFilter.ALL) White90 else Black90,
+                tint = if(f.value == TaskStateFilter.ALL) White90 else Black90,
                 modifier = Modifier.size(25.dp)
             )
             Text(
@@ -67,7 +67,7 @@ fun FooterHomeMenu(f: MutableStateFlow<TaskStateFilter>) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.clickable {
-                f.value = TaskStateFilter.COMPLETE
+                vm.filter.value = TaskStateFilter.COMPLETE
             }
         ) {
             Icon(
@@ -92,7 +92,7 @@ fun FooterHomeMenu(f: MutableStateFlow<TaskStateFilter>) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.clickable {
-                f.value = TaskStateFilter.ACTIVE
+                vm.filter.value = TaskStateFilter.ACTIVE
             }
         ) {
             Icon(
