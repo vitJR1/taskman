@@ -23,10 +23,10 @@ private val DarkColorScheme = darkColorScheme(
     primary = Gray50,
     primaryContainer = Yellow80,
     secondaryContainer = Yellow50,
-    background = Black70,
+    background = Black50,
     surface = Black30,
     surfaceTint = Black30,
-    tertiaryContainer = Black70
+    tertiaryContainer = Black50
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -90,8 +90,8 @@ fun TaskmanTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = Black70.toArgb()
-            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
+            (view.context as Activity).window.statusBarColor = Black50.toArgb()
+            ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = !darkTheme
         }
     }
 

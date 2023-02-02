@@ -1,9 +1,9 @@
 package com.noname.taskman.ui.overview.home.body
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -12,26 +12,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.noname.taskman.R
+import com.noname.taskman.data_structure.Task
+import com.noname.taskman.data_structure.TaskStateFilter
 
 @Composable
-fun TaskCard(task: Int){
-    val isCompleted = remember {
-            mutableStateOf(task % 2 == 0)
-        }
+fun TaskCard(task: Task){
     Card(
         modifier = Modifier
             .clip(RoundedCornerShape(35))
-            .fillMaxWidth()
-            .clickable { isCompleted.value = !isCompleted.value },
+            .fillMaxWidth(),
+            //.clickable { task.isCompleted = !task.isCompleted },
         colors = CardDefaults.cardColors(
             containerColor =
-                if (isCompleted.value)
+                if (task.isCompleted)
                     MaterialTheme.colorScheme.primaryContainer
                 else
                     MaterialTheme.colorScheme.tertiaryContainer
@@ -43,7 +41,7 @@ fun TaskCard(task: Int){
         ) {
             Icon(
                 painter =
-                if(isCompleted.value)
+                if(task.isCompleted)
                     painterResource(id = R.drawable.round_with_round_ico)
                 else
                     painterResource(id = R.drawable.round_ico),
@@ -52,7 +50,7 @@ fun TaskCard(task: Int){
             ) 
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = "Task $task kjhj jkkjbkjj kj kj kj ",
+                text = task.title,
                 fontSize = 22.sp,
                 softWrap = false,
                 overflow = TextOverflow.Ellipsis
@@ -62,15 +60,28 @@ fun TaskCard(task: Int){
 }
 
 @Composable
-fun TaskList(){
+fun TaskList(
+    tasks: List<Task>,
+    search: String,
+    completeTaskFilters: TaskStateFilter = TaskStateFilter.ALL
+){
     LazyColumn(
         Modifier
             .padding(top = 20.dp)
             .clip(RoundedCornerShape(8.dp)),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ){
-        items(15){
-            TaskCard(it)
+        items(
+            tasks.filter {
+                it.title.lowercase().contains(search)
+                        && when(completeTaskFilters){
+                                TaskStateFilter.ALL-> true
+                                TaskStateFilter.ACTIVE-> ! it.isCompleted
+                                TaskStateFilter.COMPLETE->it.isCompleted
+                        }
+            }
+        ){ task ->
+            TaskCard(task)
         }
     }
 }

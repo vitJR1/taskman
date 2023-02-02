@@ -8,6 +8,7 @@ val Yellow50 = Color(0xFFFFD747)
 
 val Black90 = Color(0xFF000000)
 val Black70 = Color(0xFF060606)
+val Black50 = Color(0xFF202020)
 val Black30 = Color(0xFF333333)
 
 val Gray50 = Color(0xFFCCCCCC)
