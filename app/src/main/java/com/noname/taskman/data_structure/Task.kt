@@ -1,14 +1,17 @@
 package com.noname.taskman.data_structure
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 sealed class TaskStateFilter{
     object ALL: TaskStateFilter()
     object ACTIVE: TaskStateFilter()
     object COMPLETE: TaskStateFilter()
 }
-
+@Entity
 data class Task(
-    val id: Int,
+    @PrimaryKey val id: Int,
     val title: String,
     val description: String,
-    val isCompleted: Boolean
+    var isCompleted: Boolean
 )

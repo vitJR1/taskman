@@ -7,8 +7,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -21,12 +19,12 @@ import com.noname.taskman.data_structure.Task
 import com.noname.taskman.data_structure.TaskStateFilter
 
 @Composable
-fun TaskCard(task: Task){
+fun TaskCard(task: Task, onClick: (Int) -> Unit){
     Card(
         modifier = Modifier
             .clip(RoundedCornerShape(35))
-            .fillMaxWidth(),
-            //.clickable { task.isCompleted = !task.isCompleted },
+            .fillMaxWidth()
+            .clickable { onClick(task.id) },
         colors = CardDefaults.cardColors(
             containerColor =
                 if (task.isCompleted)
@@ -63,7 +61,8 @@ fun TaskCard(task: Task){
 fun TaskList(
     tasks: List<Task>,
     search: String,
-    completeTaskFilters: TaskStateFilter = TaskStateFilter.ALL
+    completeTaskFilters: TaskStateFilter = TaskStateFilter.ALL,
+    onClick: (Int)->Unit,
 ){
     LazyColumn(
         Modifier
@@ -81,7 +80,7 @@ fun TaskList(
                         }
             }
         ){ task ->
-            TaskCard(task)
+            TaskCard(task, onClick)
         }
     }
 }

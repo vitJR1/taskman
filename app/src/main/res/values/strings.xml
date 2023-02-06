@@ -6,4 +6,5 @@
     <string name="Unfin">Unfin</string>
     <string name="Search">Search</string>
     <string name="Tasks_list">Tasks list</string>
+    <string name="DATABASE_NAME">taskman_db</string>
 </resources>

@@ -19,13 +19,11 @@ import androidx.compose.ui.unit.sp
 import com.noname.taskman.R
 import com.noname.taskman.data_structure.TaskStateFilter
 import com.noname.taskman.model.HomeScreenModel
-import com.noname.taskman.ui.theme.Black90
 import com.noname.taskman.ui.theme.White90
 
 @Composable
 fun FooterHomeMenu(f: State<TaskStateFilter>, vm: HomeScreenModel) {
     val textSize = 16.sp
-
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -48,7 +46,7 @@ fun FooterHomeMenu(f: State<TaskStateFilter>, vm: HomeScreenModel) {
             Icon(
                 painter = painterResource(id = R.drawable.endless_ico),
                 contentDescription = "",
-                tint = if(f.value == TaskStateFilter.ALL) White90 else Black90,
+                tint = if(f.value == TaskStateFilter.ALL) White90 else White90.copy(0.5F),
                 modifier = Modifier.size(25.dp)
             )
             Text(
@@ -73,7 +71,7 @@ fun FooterHomeMenu(f: State<TaskStateFilter>, vm: HomeScreenModel) {
             Icon(
                 painter = painterResource(id = R.drawable.round_with_checkmark_ico),
                 contentDescription = "",
-                tint = if(f.value is TaskStateFilter.COMPLETE) White90 else Black90,
+                tint = if(f.value is TaskStateFilter.COMPLETE) White90 else White90.copy(0.5F),
                 modifier = Modifier.size(25.dp)
             )
             Text(
@@ -98,7 +96,7 @@ fun FooterHomeMenu(f: State<TaskStateFilter>, vm: HomeScreenModel) {
             Icon(
                 painter = painterResource(id = R.drawable.round_with_cross_ico),
                 contentDescription = "",
-                tint = if(f.value is TaskStateFilter.ACTIVE) White90 else Black90,
+                tint = if(f.value is TaskStateFilter.ACTIVE) White90 else White90.copy(0.5F),
                 modifier = Modifier.size(25.dp)
             )
             Text(
