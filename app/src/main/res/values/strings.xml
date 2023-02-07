@@ -7,4 +7,6 @@
     <string name="Search">Search</string>
     <string name="Tasks_list">Tasks list</string>
     <string name="DATABASE_NAME">taskman_db</string>
+    <string name="Tasks_list_is_empty">Tasks list is empty</string>
+    <string name="Update_is_failed">Update is failed</string>
 </resources>

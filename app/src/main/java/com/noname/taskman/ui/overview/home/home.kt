@@ -16,10 +16,13 @@ import androidx.compose.ui.unit.dp
 import com.noname.taskman.R
 import com.noname.taskman.data_structure.LocalStates
 import com.noname.taskman.data_structure.Task
+import com.noname.taskman.data_structure.TaskStateFilter
 import com.noname.taskman.model.HomeScreenModel
 import com.noname.taskman.ui.component.header.Header
 import com.noname.taskman.ui.component.preloader.TaskListPreloader
 import com.noname.taskman.ui.component.upper.BodyUpper
+import com.noname.taskman.ui.overview.home.body.EmptyTaskListScreen
+import com.noname.taskman.ui.overview.home.body.ErrorScreen
 import com.noname.taskman.ui.overview.home.body.TaskList
 import com.noname.taskman.ui.overview.home.footer.FooterHomeMenu
 
@@ -34,6 +37,15 @@ fun HomeScreen(){
     val fState = vm.filter.collectAsState()
     val tlState = vm.tlState.collectAsState()
 
+    val filteredList = vm.taskList.filter {
+        it.title.lowercase().contains(vm.search.value)
+                && when(vm.filter.value){
+                    TaskStateFilter.ALL-> true
+                    TaskStateFilter.ACTIVE-> ! it.isCompleted
+                    TaskStateFilter.COMPLETE-> it.isCompleted
+        }
+    }
+
     Scaffold(
         topBar = { Header() },
         bottomBar = { FooterHomeMenu(fState, vm) }
@@ -46,22 +58,26 @@ fun HomeScreen(){
                 .fillMaxSize()
                 .padding(20.dp)
         ) {
-            when(tlState.value) {
-                LocalStates.LOADING->{
-                    TaskListPreloader()
-                }
-                LocalStates.SUCCESS->{
-                    BodyUpper(title = stringResource(id = R.string.Tasks_list), s = vm.search)
-                            TaskList (
-                            vm.taskList,
-                    vm.search.value,
-                    fState.value,
-                        ) {
-                        vm.toggleTaskState(it)
+            BodyUpper(title = stringResource(id = R.string.Tasks_list), s = vm.search)
+            if(filteredList.isEmpty()){
+                EmptyTaskListScreen()
+            }else
+                when(tlState.value) {
+                    LocalStates.START->{
+                        TaskListPreloader()
+                    }
+                    LocalStates.LOADING->{
+                        TaskListPreloader()
+                    }
+                    LocalStates.SUCCESS->{
+                        TaskList(filteredList) {
+                            vm.toggleTaskState(it)
+                        }
+                    }
+                    LocalStates.FAILURE->{
+                        ErrorScreen(stringResource(id = R.string.Update_is_failed))
                     }
                 }
-                else -> {}
-            }
         }
     }
 }

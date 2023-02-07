@@ -60,8 +60,8 @@ fun TaskCard(task: Task, onClick: (Int) -> Unit){
 @Composable
 fun TaskList(
     tasks: List<Task>,
-    search: String,
-    completeTaskFilters: TaskStateFilter = TaskStateFilter.ALL,
+//    search: String,
+//    completeTaskFilters: TaskStateFilter = TaskStateFilter.ALL,
     onClick: (Int)->Unit,
 ){
     LazyColumn(
@@ -71,14 +71,7 @@ fun TaskList(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ){
         items(
-            tasks.filter {
-                it.title.lowercase().contains(search)
-                        && when(completeTaskFilters){
-                                TaskStateFilter.ALL-> true
-                                TaskStateFilter.ACTIVE-> ! it.isCompleted
-                                TaskStateFilter.COMPLETE->it.isCompleted
-                        }
-            }
+            tasks
         ){ task ->
             TaskCard(task, onClick)
         }
