@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.toFontFamily
 import androidx.compose.ui.unit.dp
 import com.noname.taskman.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Header(){
     Row(
@@ -63,7 +62,7 @@ fun Header(){
             
             Box(
                 modifier = Modifier
-                    .padding(3.dp)
+                    .padding(3.dp,3.dp,8.dp,3.dp)
                     .background(MaterialTheme.colorScheme.primaryContainer, RoundedCornerShape(50))
                     .padding(9.dp),
                 contentAlignment = Alignment.Center

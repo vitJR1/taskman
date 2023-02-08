@@ -62,7 +62,7 @@ fun HomeScreen(){
                     TaskList(
                         vm.taskList.filter {
                             it.title.lowercase().contains(vm.search.value)
-                                    && when(vm.filter.value){
+                                    && when(fState.value){
                                         TaskStateFilter.ALL-> true
                                         TaskStateFilter.ACTIVE-> ! it.isCompleted
                                         TaskStateFilter.COMPLETE-> it.isCompleted
