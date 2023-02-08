@@ -78,6 +78,10 @@ class HomeScreenModel(
         return taskList.indexOf(getTask(id))
     }
 
+    fun setFilter(filter: TaskStateFilter){
+        this.filter.value = filter
+    }
+
     fun toggleTaskState(id: Int): Boolean{
         val task = getTask(id)
         try {

@@ -22,7 +22,7 @@ import com.noname.taskman.model.HomeScreenModel
 import com.noname.taskman.ui.theme.White90
 
 @Composable
-fun FooterHomeMenu(f: State<TaskStateFilter>, vm: HomeScreenModel) {
+fun FooterHomeMenu(f: State<TaskStateFilter>, updateFilter: (TaskStateFilter)->Unit) {
     val textSize = 16.sp
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -40,7 +40,7 @@ fun FooterHomeMenu(f: State<TaskStateFilter>, vm: HomeScreenModel) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.clickable {
-                vm.filter.value = TaskStateFilter.ALL
+                updateFilter(TaskStateFilter.ALL)
             }
         ) {
             Icon(
@@ -65,7 +65,7 @@ fun FooterHomeMenu(f: State<TaskStateFilter>, vm: HomeScreenModel) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.clickable {
-                vm.filter.value = TaskStateFilter.COMPLETE
+                updateFilter(TaskStateFilter.COMPLETE)
             }
         ) {
             Icon(
@@ -90,7 +90,7 @@ fun FooterHomeMenu(f: State<TaskStateFilter>, vm: HomeScreenModel) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.clickable {
-                vm.filter.value = TaskStateFilter.ACTIVE
+                updateFilter(TaskStateFilter.ACTIVE)
             }
         ) {
             Icon(

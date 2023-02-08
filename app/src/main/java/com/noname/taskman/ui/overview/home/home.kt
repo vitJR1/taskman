@@ -34,21 +34,12 @@ fun HomeScreen(){
 
     val vm by remember { mutableStateOf(HomeScreenModel(context)) }
 
-    val fState = vm.filter.collectAsState()
     val tlState = vm.tlState.collectAsState()
-
-    val filteredList = vm.taskList.filter {
-        it.title.lowercase().contains(vm.search.value)
-                && when(vm.filter.value){
-                    TaskStateFilter.ALL-> true
-                    TaskStateFilter.ACTIVE-> ! it.isCompleted
-                    TaskStateFilter.COMPLETE-> it.isCompleted
-        }
-    }
+    val fState = vm.filter.collectAsState()
 
     Scaffold(
         topBar = { Header() },
-        bottomBar = { FooterHomeMenu(fState, vm) }
+        bottomBar = { FooterHomeMenu(fState){vm.setFilter(it)} }
     ) {
         Column(
             modifier = Modifier
@@ -59,25 +50,32 @@ fun HomeScreen(){
                 .padding(20.dp)
         ) {
             BodyUpper(title = stringResource(id = R.string.Tasks_list), s = vm.search)
-            if(filteredList.isEmpty()){
-                EmptyTaskListScreen()
-            }else
-                when(tlState.value) {
-                    LocalStates.START->{
-                        TaskListPreloader()
-                    }
-                    LocalStates.LOADING->{
-                        TaskListPreloader()
-                    }
-                    LocalStates.SUCCESS->{
-                        TaskList(filteredList) {
-                            vm.toggleTaskState(it)
+
+            when(tlState.value) {
+                LocalStates.START->{
+                    TaskListPreloader()
+                }
+                LocalStates.LOADING->{
+                    TaskListPreloader()
+                }
+                LocalStates.SUCCESS->{
+                    TaskList(
+                        vm.taskList.filter {
+                            it.title.lowercase().contains(vm.search.value)
+                                    && when(vm.filter.value){
+                                        TaskStateFilter.ALL-> true
+                                        TaskStateFilter.ACTIVE-> ! it.isCompleted
+                                        TaskStateFilter.COMPLETE-> it.isCompleted
+                            }
                         }
-                    }
-                    LocalStates.FAILURE->{
-                        ErrorScreen(stringResource(id = R.string.Update_is_failed))
+                    ) {
+                        vm.toggleTaskState(it)
                     }
                 }
+                LocalStates.FAILURE->{
+                    ErrorScreen(stringResource(id = R.string.Update_is_failed))
+                }
+            }
         }
     }
 }

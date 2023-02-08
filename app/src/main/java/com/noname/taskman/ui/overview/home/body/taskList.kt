@@ -64,6 +64,9 @@ fun TaskList(
 //    completeTaskFilters: TaskStateFilter = TaskStateFilter.ALL,
     onClick: (Int)->Unit,
 ){
+    if(tasks.isEmpty())
+        return EmptyTaskListScreen()
+
     LazyColumn(
         Modifier
             .padding(top = 20.dp)
