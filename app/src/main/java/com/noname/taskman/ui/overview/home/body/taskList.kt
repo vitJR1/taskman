@@ -2,11 +2,10 @@ package com.noname.taskman.ui.overview.home.body
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,12 +15,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.noname.taskman.R
 import com.noname.taskman.data_structure.Task
-import com.noname.taskman.data_structure.TaskStateFilter
+import com.noname.taskman.ui.component.dnd.DragDropList
+import com.noname.taskman.ui.component.dnd.move
 
 @Composable
-fun TaskCard(task: Task, onClick: (Int) -> Unit){
+fun TaskCard(
+    task: Task,
+    onClick: (Int) -> Unit,
+    modifier: Modifier
+){
     Card(
-        modifier = Modifier
+        modifier = modifier
             .clip(RoundedCornerShape(35))
             .fillMaxWidth()
             .clickable { onClick(task.id) },
@@ -59,33 +63,39 @@ fun TaskCard(task: Task, onClick: (Int) -> Unit){
 
 @Composable
 fun TaskList(
-    tasks: List<Task>,
-//    search: String,
-//    completeTaskFilters: TaskStateFilter = TaskStateFilter.ALL,
+    tasks: MutableList<Task>,
     onClick: (Int)->Unit,
 ){
     if(tasks.isEmpty())
         return EmptyTaskListScreen()
 
-    LazyColumn(
-        Modifier
-            .padding(top = 20.dp)
-            .clip(RoundedCornerShape(8.dp)),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ){
-        items(
-            tasks
-        ){ task ->
-            TaskCard(task, onClick)
-        }
-    }
+    val dndTaskList = tasks.toMutableStateList()
+
+    DragDropList<Task>(
+        dndTaskList,
+        onMove = { fromIndex, toIndex -> dndTaskList.move(fromIndex, toIndex)},
+        modifier = Modifier,
+        card = {task, modifier -> TaskCard(task = task, onClick = onClick, modifier = modifier)},
+    )
+
+//    LazyColumn(
+//        Modifier
+//            .padding(top = 20.dp)
+//            .clip(RoundedCornerShape(8.dp)),
+//        verticalArrangement = Arrangement.spacedBy(12.dp)
+//    ){
+//        items(
+//            tasks
+//        ){ task ->
+//            TaskCard(task, onClick)
+//        }
+//    }
 }
 
 //подробнее
 //возможность автоматически ставить обновить задачу
-// (поставить как нувею каждый день)
+// (ставить как новую каждый день)
 // профиль
 // возможность авторизоватся
 // добавить друзей
-// донат( по желанию ) я тоже хочу деняг
-// пока все идеи
+// сортировка с помощью перетаскивания

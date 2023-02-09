@@ -67,7 +67,7 @@ fun HomeScreen(){
                                         TaskStateFilter.ACTIVE-> ! it.isCompleted
                                         TaskStateFilter.COMPLETE-> it.isCompleted
                             }
-                        }
+                        } as MutableList<Task>,
                     ) {
                         vm.toggleTaskState(it)
                     }
